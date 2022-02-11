@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>密码锁控制器测试页面</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/layui.js"></script>
+    <script type="text/javascript" src="/layui/jquery-1.11.3.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">测试页面</div>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item"><a id="btn">初始化</a></li>
+                <li class="layui-nav-item"><a id="btn1">开锁</a></li>
+                <li class="layui-nav-item"><a id="btn2">上锁</a></li>
+                <li class="layui-nav-item"><a id="btn3">更改密码</a></li>
+                <li class="layui-nav-item"><a id="btn4">更改地址</a></li>
+                <li class="layui-nav-item"><a id="btn5">读取锁具状态</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="dv" style="display:block" class="layui-body">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>初始化</legend>
+        </fieldset>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="lowerPositionAddress" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功能码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="functionCode" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" value="00" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码个数</label>
+                <div class="layui-input-block" style="width:100px;">
+                    <select id="dvnumber" name="dvnumber" lay-filter="dvnumber">
+                        <option value="3" selected="" >3</option>
+                        <option value="4" >4</option>
+                        <option value="5" >5</option>
+                    </select>
+                </div>
+            </div>
+<!---------------------------------------------------------------------------------------------------------------->
+            <div class="layui-form-item">
+                <label class="layui-form-label">回零码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="init1" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">开锁位置码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="init2" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">对位码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="init3" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+<!---------------------------------------------------------------------------------------------------------------->
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码1</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dvcipher1" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码2</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dvcipher2" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码3</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dvcipher3" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dvm4" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码4</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dvcipher4" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dvm5" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码5</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dvcipher5" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <!---------------------------------------------------------------------------------------------------------------->
+            <div class="layui-form-item">
+                <label class="layui-form-label">平移圈数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="init4" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">平移格数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="init5" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">旋转格数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="init6" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">旋转调整</label>
+                <div class="layui-input-block">
+                    <input type="text" name="init7" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <!---------------------------------------------------------------------------------------------------------------->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" lay-submit="" lay-filter="dvbtn">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="dv1" style="display:none" class="layui-body">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>开锁</legend>
+        </fieldset>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="lowerPositionAddress" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功能码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="functionCode" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" value="01" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码个数</label>
+                <div class="layui-input-block" style="width:100px;">
+                    <select id="dv1number" name="dv1number" lay-filter="dv1number">
+                        <option value="3" selected="" >3</option>
+                        <option value="4" >4</option>
+                        <option value="5" >5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码1</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv1cipher1" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码2</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv1cipher2" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码3</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv1cipher3" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv1m4" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码4</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv1cipher4" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv1m5" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码5</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv1cipher5" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" lay-submit="" lay-filter="dv1btn">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="dv2" style="display:none" class="layui-body">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>上锁</legend>
+        </fieldset>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="lowerPositionAddress" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功能码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="functionCode" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" value="02" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码个数</label>
+                <div class="layui-input-block" style="width:100px;">
+                    <select name="number" lay-filter="number">
+                        <option value="3" selected="" >3</option>
+                        <option value="4" >4</option>
+                        <option value="5" >5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" lay-submit="" lay-filter="dv2btn">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="dv3" style="display:none" class="layui-body">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>更改密码</legend>
+        </fieldset>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="lowerPositionAddress" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功能码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="functionCode" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" value="03" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码个数</label>
+                <div class="layui-input-block" style="width:100px;">
+                    <select id="dv3number" name="dv3number" lay-filter="dv3number">
+                        <option value="3" selected="" >3</option>
+                        <option value="4" >4</option>
+                        <option value="5" >5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">旧密码1</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3cipher1" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">旧密码2</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3cipher2" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">旧密码3</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3cipher3" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv3m4" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">旧密码4</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3cipher4" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv3m5" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">旧密码5</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3cipher5" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">新密码1</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3newCipher1" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">新密码2</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3newCipher2" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">新密码3</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3newCipher3" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv3nm4" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">新密码4</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3newCipher4" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv3nm5" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">新密码5</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv3newCipher5" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" lay-submit="" lay-filter="dv3btn">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="dv4" style="display:none" class="layui-body">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>更改地址</legend>
+        </fieldset>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="lowerPositionAddress" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功能码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="functionCode" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" value="04" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码个数</label>
+                <div class="layui-input-block" style="width:100px;">
+                    <select id="dv4number" name="dv4number" lay-filter="dv4number">
+                        <option value="3" selected="" >3</option>
+                        <option value="4" >4</option>
+                        <option value="5" >5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码1</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv4cipher1" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码2</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv4cipher2" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码3</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv4cipher3" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv4m4" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码4</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv4cipher4" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv4m5" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码5</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv4cipher5" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">新地址码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="newLowerPositionAddress" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" lay-submit="" lay-filter="dv4btn">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="dv5" style="display:none" class="layui-body">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>读取锁具状态</legend>
+        </fieldset>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="lowerPositionAddress" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功能码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="functionCode" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" value="05" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码个数</label>
+                <div class="layui-input-block" style="width:100px;">
+                    <select id="dv5number" name="dv5number" lay-filter="dv5number">
+                        <option value="3" selected="" >3</option>
+                        <option value="4" >4</option>
+                        <option value="5" >5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码1</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv5cipher1" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码2</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv5cipher2" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码3</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv5cipher3" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv5m4" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码4</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv5cipher4" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dv5m5" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码5</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dv5cipher5" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" lay-submit="" lay-filter="dv5btn">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+<!--    <div class="layui-footer">-->
+<!--        &lt;!&ndash; 底部固定区域 &ndash;&gt;-->
+<!--        © 济南融霄科技有限公司-->
+<!--    </div>-->
+</div>
+
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form','element'], function(){
+        var layer = layui.layer
+            ,form = layui.form
+            ,element = layui.element;
+//=====================================================初始化========================================================//
+        form.on('select(dvnumber)', function(data){
+            var val=data.value;
+            if (val ==3){
+                my("dvm4").style.display="none";
+                my("dvm5").style.display="none";
+                $("input[name=dvcipher4]").removeAttr("lay-verify")
+                $("input[name=dvcipher5]").removeAttr("lay-verify")
+            } else if(val == 4){
+                my("dvm4").style.display="block";
+                my("dvm5").style.display="none";
+                $("input[name=dvcipher4]").attr("lay-verify","required|number")
+                $("input[name=dvcipher5]").removeAttr("lay-verify")
+            }else if(val == 5){
+                my("dvm4").style.display="block";
+                my("dvm5").style.display="block";
+                $("input[name=dvcipher4]").attr("lay-verify","required|number")
+                $("input[name=dvcipher5]").attr("lay-verify","required|number")
+            }
+        });
+        form.on('submit(dvbtn)', function (data) {
+            //密码个数
+            let number = data.field.dvnumber
+            let cipher1 = checkNumber(data.field.dvcipher1)
+            let cipher2 = checkNumber(data.field.dvcipher2)
+            let cipher3 = checkNumber(data.field.dvcipher3)
+
+            if (number == 3){
+                if (!cipher1 || !cipher2 || !cipher3){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3
+            }else if(number == 4){
+                let cipher4 = checkNumber(data.field.dvcipher4)
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 ){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4
+            }else if(number ==5){
+                let cipher4 = checkNumber(data.field.dvcipher4)
+                let cipher5 = checkNumber(data.field.dvcipher5)
+
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 || !cipher5){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4 + cipher5
+            }
+            let init1 = checkNumber(data.field.init1)
+            let init2 = checkNumber(data.field.init2)
+            let init3 = checkNumber(data.field.init3)
+            let init4 = checkNumber(data.field.init4)
+            let init5 = checkNumber(data.field.init5)
+            let init6 = checkNumber(data.field.init6)
+            let init7 = checkNumber(data.field.init7)
+            data.field.data = init1 + init2 +init3 + data.field.data + init4 + init5 + init6 + init7
+            data.field.number = data.field.dvnumber
+            $.ajax({
+                url: "/send/down",
+                type: "get",
+                data: data.field,
+                success: function (data) {
+                    //信息框
+                    layer.msg(data);
+                }
+            });
+            return false;
+        });
+//=====================================================开锁==========================================================//
+        form.on('select(dv1number)', function(data){
+            var val=data.value;
+            if (val ==3){
+                my("dv1m4").style.display="none";
+                my("dv1m5").style.display="none";
+                $("input[name=dv1cipher4]").removeAttr("lay-verify")
+                $("input[name=dv1cipher5]").removeAttr("lay-verify")
+            } else if(val == 4){
+                my("dv1m4").style.display="block";
+                my("dv1m5").style.display="none";
+                $("input[name=dv1cipher4]").attr("lay-verify","required|number")
+                $("input[name=dv1cipher5]").removeAttr("lay-verify")
+            }else if(val == 5){
+                my("dv1m4").style.display="block";
+                my("dv1m5").style.display="block";
+                $("input[name=dv1cipher4]").attr("lay-verify","required|number")
+                $("input[name=dv1cipher5]").attr("lay-verify","required|number")
+            }
+        });
+        form.on('submit(dv1btn)', function (data) {
+            //密码个数
+            var number = data.field.dv1number
+            var cipher1 = checkNumber(data.field.dv1cipher1)
+            var cipher2 = checkNumber(data.field.dv1cipher2)
+            var cipher3 = checkNumber(data.field.dv1cipher3)
+
+            if (number == 3){
+                if (!cipher1 || !cipher2 || !cipher3){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3
+            }else if(number == 4){
+                var cipher4 = checkNumber(data.field.dv1cipher4)
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 ){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4
+            }else if(number ==5){
+                var cipher4 = checkNumber(data.field.dv1cipher4)
+                var cipher5 = checkNumber(data.field.dv1cipher5)
+
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 || !cipher5){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4 + cipher5
+            }
+            data.field.number = data.field.dv1number
+            $.ajax({
+                url: "/send/down",
+                type: "get",
+                data: data.field,
+                success: function (data) {
+                    //信息框
+                    layer.msg(data);
+                }
+            });
+            return false;
+        });
+//=====================================================上锁==========================================================//
+        form.on('submit(dv2btn)', function (data) {
+            $.ajax({
+                url: "/send/down",
+                type: "get",
+                data: data.field,
+                success: function (data) {
+                    //信息框
+                    layer.msg(data);
+                }
+            });
+            return false;
+        })
+//===================================================修改密码=========================================================//
+        form.on('select(dv3number)', function(data){
+            var val=data.value;
+            if (val ==3){
+                my("dv3m4").style.display="none";
+                my("dv3m5").style.display="none";
+                my("dv3nm4").style.display="none";
+                my("dv3nm5").style.display="none";
+                $("input[name=dv3cipher4]").removeAttr("lay-verify")
+                $("input[name=dv3newCipher4]").removeAttr("lay-verify")
+                $("input[name=dv3cipher5]").removeAttr("lay-verify")
+                $("input[name=dv3newCipher5]").removeAttr("lay-verify")
+            } else if(val == 4){
+                my("dv3m4").style.display="block";
+                my("dv3m5").style.display="none";
+                my("dv3nm4").style.display="block";
+                my("dv3nm5").style.display="none";
+                $("input[name=dv3cipher4]").attr("lay-verify","required|number")
+                $("input[name=dv3newCipher4]").attr("lay-verify","required|number")
+                $("input[name=dv3cipher5]").removeAttr("lay-verify")
+                $("input[name=dv3newCipher5]").removeAttr("lay-verify")
+            }else if(val == 5){
+                my("dv3m4").style.display="block";
+                my("dv3m5").style.display="block";
+                my("dv3nm4").style.display="block";
+                my("dv3nm5").style.display="block";
+                $("input[name=dv3cipher4]").attr("lay-verify","required")
+                $("input[name=dv3newCipher4]").attr("lay-verify","required")
+                $("input[name=dv3cipher5]").attr("lay-verify","required")
+                $("input[name=dv3newCipher5]").attr("lay-verify","required")
+            }
+        });
+        form.on('submit(dv3btn)', function (data) {
+            //密码个数
+            var number = data.field.dv3number
+            var cipher1 = checkNumber(data.field.dv3cipher1)
+            var cipher2 = checkNumber(data.field.dv3cipher2)
+            var cipher3 = checkNumber(data.field.dv3cipher3)
+            var newCipher1 = checkNumber(data.field.dv3newCipher1)
+            var newCipher2 = checkNumber(data.field.dv3newCipher2)
+            var newCipher3 = checkNumber(data.field.dv3newCipher3)
+
+            if (number == 3){
+                if (!cipher1 || !cipher2  || !cipher3 || !newCipher1|| !newCipher2 || !newCipher3){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + newCipher1 + newCipher2 + newCipher3
+            }else if(number == 4){
+                var cipher4 = checkNumber(data.field.dv3cipher4)
+                var newCipher4 = checkNumber(data.field.dv3newCipher4)
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 || !newCipher1|| !newCipher2 || !newCipher3 || !newCipher4){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4 + newCipher1 + newCipher2 + newCipher3 + newCipher4
+            }else if(number ==5){
+                var cipher4 = checkNumber(data.field.dv3cipher4)
+                var cipher5 = checkNumber(data.field.dv3cipher5)
+                var newCipher4 = checkNumber(data.field.dv3newCipher4)
+                var newCipher5 = checkNumber(data.field.dv3newCipher5)
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 || !cipher5 || !newCipher1|| !newCipher2 || !newCipher3 || !newCipher4 || !!newCipher5){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4 + cipher5 + newCipher1 + newCipher2 + newCipher3 + newCipher4 + newCipher5
+            }
+            data.field.number = data.field.dv3number
+            $.ajax({
+                url: "/send/down",
+                type: "get",
+                data: data.field,
+                success: function (data) {
+                    //信息框
+                    layer.msg(data);
+                }
+            });
+            return false;
+        });
+//===================================================修改地址=========================================================//
+        form.on('select(dv4number)', function(data){
+            var val=data.value;
+            if (val ==3){
+                my("dv4m4").style.display="none";
+                my("dv4m5").style.display="none";
+                $("input[name=dv4cipher4]").removeAttr("lay-verify")
+                $("input[name=dv4cipher5]").removeAttr("lay-verify")
+            } else if(val == 4){
+                my("dv4m4").style.display="block";
+                my("dv4m5").style.display="none";
+                $("input[name=dv4cipher4]").attr("lay-verify","required|number")
+                $("input[name=dv4cipher5]").removeAttr("lay-verify")
+            }else if(val == 5){
+                my("dv4m4").style.display="block";
+                my("dv4m5").style.display="block";
+                $("input[name=dv4cipher4]").attr("lay-verify","required|number")
+                $("input[name=dv4cipher5]").attr("lay-verify","required|number")
+            }
+        });
+        form.on('submit(dv4btn)', function (data) {
+            //密码个数
+            var number = data.field.dv4number
+            var cipher1 = checkNumber(data.field.dv4cipher1)
+            var cipher2 = checkNumber(data.field.dv4cipher2)
+            var cipher3 = checkNumber(data.field.dv4cipher3)
+            var newLowerPositionAddress = checkNumber(data.field.newLowerPositionAddress)
+            if (number == 3){
+                if (!cipher1 || !cipher2 || !cipher3 || !newLowerPositionAddress){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + newLowerPositionAddress
+            }else if(number == 4){
+                var cipher4 = checkNumber(data.field.dv4cipher4)
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4  || !newLowerPositionAddress){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4 + newLowerPositionAddress
+            }else if(number ==5){
+                var cipher4 = checkNumber(data.field.dv4cipher4)
+                var cipher5 = checkNumber(data.field.dv4cipher5)
+
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 || !cipher5  || !newLowerPositionAddress){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4 + cipher5 +newLowerPositionAddress
+            }
+            data.field.number = data.field.dv4number
+            $.ajax({
+                url: "/send/down",
+                type: "get",
+                data: data.field,
+                success: function (data) {
+                    //信息框
+                    layer.msg(data);
+                }
+            });
+            return false;
+        });
+//==================================================读取锁具状态=======================================================//
+        form.on('select(dv5number)', function(data){
+            var val=data.value;
+            if (val ==3){
+                my("dv5m4").style.display="none";
+                my("dv5m5").style.display="none";
+                $("input[name=dv5cipher4]").removeAttr("lay-verify")
+                $("input[name=dv5cipher5]").removeAttr("lay-verify")
+            } else if(val == 4){
+                my("dv5m4").style.display="block";
+                my("dv5m5").style.display="none";
+                $("input[name=dv5cipher4]").attr("lay-verify","required|number")
+                $("input[name=dv5cipher5]").removeAttr("lay-verify")
+            }else if(val == 5){
+                my("dv5m4").style.display="block";
+                my("dv5m5").style.display="block";
+                $("input[name=dv5cipher4]").attr("lay-verify","required|number")
+                $("input[name=dv5cipher5]").attr("lay-verify","required|number")
+            }
+        });
+        form.on('submit(dv5btn)', function (data) {
+            //密码个数
+            var number = data.field.dv5number
+            var cipher1 = checkNumber(data.field.dv5cipher1)
+            var cipher2 = checkNumber(data.field.dv5cipher2)
+            var cipher3 = checkNumber(data.field.dv5cipher3)
+
+            if (number == 3){
+                if (!cipher1 || !cipher2 || !cipher3){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3
+            }else if(number == 4){
+                var cipher4 = checkNumber(data.field.dv5cipher4)
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 ){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4
+            }else if(number ==5){
+                var cipher4 = checkNumber(data.field.dv5cipher4)
+                var cipher5 = checkNumber(data.field.dv5cipher5)
+
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 || !cipher5){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.data = cipher1 + cipher2 + cipher3 + cipher4 + cipher5
+            }
+            data.field.number = data.field.dv5number
+            $.ajax({
+                url: "/send/down",
+                type: "get",
+                data: data.field,
+                success: function (data) {
+                    //信息框
+                    layer.msg(data);
+                }
+            });
+            return false;
+        });
+//=====================================================结束==========================================================//
+        function checkNumber(num){
+            if (num.length == 2){
+                return num;
+            }else if(num.length == 1){
+                return '0'+num;
+            }else{
+                return false;
+            }
+        }
+    });
+
+    function my(id){
+        return document.getElementById(id);
+    }
+    my("btn").onclick=function(){
+            my("dv").style.display="block";
+            my("dv1").style.display="none";
+            my("dv2").style.display="none";
+            my("dv3").style.display="none";
+            my("dv4").style.display="none";
+            my("dv5").style.display="none";
+    }
+    my("btn1").onclick=function(){
+        my("dv").style.display="none";
+        my("dv1").style.display="block";
+        my("dv2").style.display="none";
+        my("dv3").style.display="none";
+        my("dv4").style.display="none";
+        my("dv5").style.display="none";
+    }
+    my("btn2").onclick=function(){
+        my("dv").style.display="none";
+        my("dv1").style.display="none";
+        my("dv2").style.display="block";
+        my("dv3").style.display="none";
+        my("dv4").style.display="none";
+        my("dv5").style.display="none";
+    }
+    my("btn3").onclick=function(){
+        my("dv").style.display="none";
+        my("dv1").style.display="none";
+        my("dv2").style.display="none";
+        my("dv3").style.display="block";
+        my("dv4").style.display="none";
+        my("dv5").style.display="none";
+    }
+    my("btn4").onclick=function(){
+        my("dv").style.display="none";
+        my("dv1").style.display="none";
+        my("dv2").style.display="none";
+        my("dv3").style.display="none";
+        my("dv4").style.display="block";
+        my("dv5").style.display="none";
+    }
+    my("btn5").onclick=function(){
+        my("dv").style.display="none";
+        my("dv1").style.display="none";
+        my("dv2").style.display="none";
+        my("dv3").style.display="none";
+        my("dv4").style.display="none";
+        my("dv5").style.display="block";
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>密码锁控制器测试页面</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/layui.js"></script>
+    <script type="text/javascript" src="/layui/jquery-1.11.3.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">测试页面</div>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item"><a id="overview">总览</a></li>
+                <li class="layui-nav-item"><a id="initialization">初始化</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overviewModel" style="display:block" class="layui-body" >
+        <div id="abc" class="layui-form">
+
+        </div>
+    </div>
+    <div id="initializationModel" style="display:none" class="layui-body">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>初始化</legend>
+        </fieldset>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">串口服务器</label>
+                <div class="layui-input-block" style="width:200px;">
+                    <select id="server" name="clientId" lay-filter="server" >
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">锁具名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="deviceName" autocomplete="off" class="layui-input" style="width:200px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="addressCode" lay-verify="required|number" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功能码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="functionCode" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" value="00" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码个数</label>
+                <div class="layui-input-block" style="width:100px;">
+                    <select id="number" name="number" lay-filter="number">
+                        <option value="3" selected="" >3</option>
+                        <option value="4" >4</option>
+                        <option value="5" >5</option>
+                    </select>
+                </div>
+            </div>
+<!---------------------------------------------------------------------------------------------------------------->
+            <div class="layui-form-item">
+                <label class="layui-form-label">回零码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="param1" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">开锁位置码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="param2" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">对位码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="param3" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+<!---------------------------------------------------------------------------------------------------------------->
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码1</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password1" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码2</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password2" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码3</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password3" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dvm4" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码4</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password4" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <div id="dvm5" class="layui-form-item" style="display:none">
+                <label class="layui-form-label">密码5</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password5" autocomplete="off" class="layui-input" style="width:100px;">
+                </div>
+            </div>
+            <!---------------------------------------------------------------------------------------------------------------->
+            <div class="layui-form-item">
+                <label class="layui-form-label">平移圈数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="param4" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">平移格数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="param5" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">旋转格数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="param6" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">旋转调整</label>
+                <div class="layui-input-block">
+                    <input type="text" name="param7" lay-verify="required" autocomplete="off" class="layui-input" style="width:100px;" >
+                </div>
+            </div>
+            <!---------------------------------------------------------------------------------------------------------------->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" name="submit" class="layui-btn" lay-submit="" lay-filter="dvbtn">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+<!--    <div class="layui-footer">-->
+<!--        &lt;!&ndash; 底部固定区域 &ndash;&gt;-->
+<!--        © 济南融霄科技有限公司-->
+<!--    </div>-->
+</div>
+<script id="demo1" type="text/html">
+    {{#  layui.each(d.list, function(index, item){ }}
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>{{ item.clientName }}
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" onclick="changeClientName('{{ item.id}},{{ item.clientName }}')" style="border-color: #FFFFFF">
+                <i class="layui-icon layui-icon-edit" style="font-size: 20px; color: #1E9FFF;"></i>
+            </button>
+        </legend>
+    </fieldset>
+    <div class="layui-bg-gray" style="padding: 30px;">
+        <div class="layui-row layui-col-space15">
+            {{#  layui.each(item.deviceList, function(index, param){ }}
+            <div class="layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">{{ param.deviceName}}
+<!--                        修改按钮-->
+<!--                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm " onclick="changeDevice('{{ param.id}},{{ param.deviceName }}')" style="border-color: #FFFFFF">-->
+<!--                            <i class="layui-icon layui-icon-set-fill" style="font-size: 20px; color: #1E9FFF;"></i>-->
+<!--                        </button>-->
+                    </div>
+                    <div class="layui-card-body">
+                        <span>锁具状态：</span>
+                        {{# if(param.status == 1){ }}
+                        <span>开启</span>
+                        {{# }else{ }}
+                        <span>关闭</span>
+                        {{# } }}
+                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm " onclick="refreshDevice('{{ param.id}}')" style="border-color: #FFFFFF">
+                            <i class="layui-icon layui-icon-refresh" style="font-size: 20px; color: #1E9FFF;"></i>
+                        </button>
+                        <br>
+                        <br>
+                        <button type="button" class="layui-btn" onclick="unlocking('{{ param.id}}')">开锁</button>
+                        <button type="button" class="layui-btn layui-btn-danger" onclick="locking('{{ param.id}}')">关锁</button>
+                    </div>
+                </div>
+            </div>
+            {{#  }); }}
+        </div>
+    </div>
+    {{#  }); }}
+</script>
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form','laytpl'], function(){
+        var layer = layui.layer
+            ,form = layui.form
+            ,laytpl = layui.laytpl;
+//=====================================================初始化========================================================//
+        form.on('select(number)', function(data){
+            var val=data.value;
+            if (val ==3){
+                my("dvm4").style.display="none";
+                my("dvm5").style.display="none";
+                $("input[name=password4]").removeAttr("lay-verify")
+                $("input[name=password5]").removeAttr("lay-verify")
+            } else if(val == 4){
+                my("dvm4").style.display="block";
+                my("dvm5").style.display="none";
+                $("input[name=password4]").attr("lay-verify","required|number")
+                $("input[name=password5]").removeAttr("lay-verify")
+            }else if(val == 5){
+                my("dvm4").style.display="block";
+                my("dvm5").style.display="block";
+                $("input[name=password4]").attr("lay-verify","required|number")
+                $("input[name=dvcipher5]").attr("lay-verify","required|number")
+            }
+        });
+        form.on('submit(dvbtn)', function (data) {
+            //密码个数
+            let number = data.field.number
+            let cipher1 = checkNumber(data.field.password1)
+            let cipher2 = checkNumber(data.field.password2)
+            let cipher3 = checkNumber(data.field.password3)
+
+            if (number == 3){
+                if (!cipher1 || !cipher2 || !cipher3){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.password = cipher1 + cipher2 + cipher3
+            }else if(number == 4){
+                let cipher4 = checkNumber(data.field.password4)
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 ){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.password = cipher1 + cipher2 + cipher3 + cipher4
+            }else if(number ==5){
+                let cipher4 = checkNumber(data.field.password4)
+                let cipher5 = checkNumber(data.field.password5)
+
+                if (!cipher1 || !cipher2 || !cipher3 || !cipher4 || !cipher5){
+                    layer.msg("密码位数不正确!!")
+                    return false;
+                }
+                data.field.password3 = cipher1 + cipher2 + cipher3 + cipher4 + cipher5
+            }
+            data.field.param1 = checkNumber(data.field.param1)
+            data.field.param2 = checkNumber(data.field.param2)
+            data.field.param3 = checkNumber(data.field.param3)
+            data.field.param4 = checkNumber(data.field.param4)
+            data.field.param5 = checkNumber(data.field.param5)
+            data.field.param6 = checkNumber(data.field.param6)
+            data.field.param7 = checkNumber(data.field.param7)
+            data.field.number = checkNumber(data.field.number)
+            data.field.addressCode = checkNumber(data.field.addressCode)
+            if(!data.field.addressCode){
+                layer.msg("[地址码]位数过长");
+                return false;
+            }
+            if(!data.field.param1){
+                layer.msg("[回零码]位数过长");
+                return false;
+            }
+            if(!data.field.param2){
+                layer.msg("[开锁位置码]位数过长");
+                return false;
+            }
+            if(!data.field.param3){
+                layer.msg("[对位码]位数过长");
+                return false;
+            }
+            if(!data.field.param4){
+                layer.msg("[平移圈数]位数过长");
+                return false;
+            }
+            if(!data.field.param5){
+                layer.msg("[平移格数]位数过长");
+                return false;
+            }
+            if(!data.field.param6){
+                layer.msg("[旋转格数]位数过长");
+                return false;
+            }
+            if(!data.field.param7){
+                layer.msg("[旋转调整]位数过长");
+                return false;
+            }
+
+            $.ajax({
+                url: "/device/initialization",
+                type: "get",
+                data: data.field,
+                success: function (data) {
+                    //信息框
+                    if(data==1){
+                        layer.msg("指令下发成功");
+                    }else{
+                        layer.msg("该设备下此地址码已存在，不可新增");
+                    }
+
+                }
+            });
+            return false;
+        });
+
+        function checkNumber(num){
+            if (num.length == 2){
+                return num;
+            }else if(num.length == 1){
+                return '0'+num;
+            }else{
+                return false;
+            }
+        }
+        $.ajax({
+            type: "get",
+            url: "/client/list",
+            async: true,
+            dataType: "json",
+            success: function (data) {
+                var html="";
+                for(var i=0;i<data.length;i++){
+                    html+="<option value="+data[i].id+">"+data[i].clientName+"</option>";
+                }
+                $("#server").append(html);
+                form.render();
+            }
+        });
+
+        window.onload = myfun;
+        function myfun() 　　{
+            $.ajax({
+                url: "/device/list",
+                type: "get",
+                success: function (data) {
+                    var getTpl = demo1.innerHTML
+                        ,view = document.getElementById('abc');
+                    laytpl(getTpl).render(data, function(html){
+                        view.innerHTML = html;
+                    });
+                }
+            });
+        }
+    });
+    // 开锁
+    function unlocking(id){
+        $.ajax({
+            url: "/device/open/"+id,
+            type: "get",
+            success: function (data) {
+                if (data == 200){
+                    layer.msg("指令下发成功")
+                    setTimeout('window.location.reload()',1000);
+                }
+            }
+        });
+    }
+    // 关锁
+    function locking(id){
+        $.ajax({
+            url: "/device/close/"+id,
+            type: "get",
+            success: function (data) {
+                if (data == 200){
+                    layer.msg("指令下发成功")
+                    setTimeout('window.location.reload()',1000);
+                }
+            }
+        });
+    }
+    // 修改串口服务器的名称
+    function changeClientName(id){
+        var client = id.split(',')
+        layui.use(['layer'], function() {
+            var layer = layui.layer;
+            layer.prompt({value: client[1],title: '修改名称'},function(value, index, elem){
+                let data = {
+                    "id":client[0],
+                    "clientName":value,
+                }
+                $.ajax({
+                    url: "/client/name",
+                    type: "put",
+                    data: data,
+                    success: function (data) {
+                        if (data == 1){
+                            layer.msg("修改成功")
+                            setTimeout('window.location.reload()',1000);
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+        });
+    }
+    // 修改设备名称，地址，密码
+    function changeDevice(id){
+        layer.open({
+            type: 2,
+            area: ['600px', '800px'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: 'change'
+        });
+    }
+    // 刷新设备状态
+    function refreshDevice(id){
+        $.ajax({
+            url: "/device/refresh/"+id,
+            type: "get",
+            success: function (data) {
+                if (data == 200){
+                    layer.msg("指令下发成功")
+                    setTimeout('window.location.reload()',1000);
+                }
+            }
+        });
+    }
+    function my(id){
+        return document.getElementById(id);
+    }
+    my("overview").onclick=function(){
+            my("overviewModel").style.display="block";
+            my("initializationModel").style.display="none";
+    }
+    my("initialization").onclick=function(){
+        my("overviewModel").style.display="none";
+        my("initializationModel").style.display="block";
+    }
+
+</script>
+
+</body>
+</html>
